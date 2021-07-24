@@ -23,8 +23,8 @@ function Todo({ todo, index, completeTodo, removeTodo, editTodo }) {
   )
 }
 
-function TodoForm({ addTodo }) {
-  //set value gleich. gucken, wie man value aus dem todo-item
+function TodoForm({ addTodo, editTodo }) {
+  //set value gleich. gucken, wie man value aus dem todo-
   const [value, setValue] = React.useState("");
   const handleSubmit = e => {
     e.preventDefault();
@@ -45,16 +45,19 @@ function TodoForm({ addTodo }) {
      //setValue(value);
      //setIsEditing(false)
   }
-
   return (
+
     
-    <form onSubmit={isEditing? handleSubmit: handleEdit}>
+      <form onSubmit={handleSubmit}>
       <input type="text"
         className="input todo"
         value={value}
         onChange={e => setValue(e.target.value)} />
       <button className="button-add" onClick={handleSubmit}>Add</button>
     </form>
+    
+    
+   
   );
 }
 
@@ -88,6 +91,7 @@ function App() {
   const addTodo = text => {
     //const newTodos = [...todos, { text }];
     const newTodos = [{ text },...todos ];
+    console.log("in add todo")
     setTodos(newTodos);
   };
 
@@ -103,15 +107,15 @@ function App() {
     setTodos(newTodos);
   };
   const editTodo = (index) => {
-    console.log("in const editTodo");
+    //console.log("in const editTodo");
     console.log("new todo index");
     console.log(index);
     const newTodos = [...todos];
-    var text  = newTodos[index].text;
-    console.log(text);
+    //var text  = newTodos[index].text;
+    //console.log(text);
     newTodos[index].isEditing = true;
-    console.log(newTodos[index].isEditing);
-    setTodos(newTodos);
+    //console.log(newTodos[index].isEditing);
+    //setTodos(newTodos);
     //setTodos(newTodos);
     //newTodos[index].isEditing = false;
     //console.log("New Todos");
@@ -153,6 +157,8 @@ function App() {
           ))}
 
         </div>
+        <button >Remove All</button>
+        <button >Complete All</button>
       </div>
       <footer className="App-footer">
 
