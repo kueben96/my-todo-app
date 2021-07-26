@@ -98,6 +98,38 @@
   border-radius: 3px;
   
 }
+.button-edit {
+  /*padding: 2vh;*/
+  margin-bottom: 2vh;
+  background-color: #256a0cbf;
+  color: white;
+  padding: 2vh;
+  border-style:none;
+  border-radius: 3px;
+  
+}
+
+.button-remove-all {
+  /*padding: 2vh;*/
+  margin-bottom: 2vh;
+  background-color: #791515be;
+  color: white;
+  padding: 2vh;
+  border-style:none;
+  border-radius: 3px;
+  
+}
+
+.button-complete-all {
+  /*padding: 2vh;*/
+  margin-bottom: 2vh;
+  background-color: #036408;
+  color: white;
+  padding: 2vh;
+  border-style:none;
+  border-radius: 3px;
+  
+}
 
 .button {
   
@@ -139,3 +171,7 @@
   background: #fff;
 }
 
+.check-todo {
+  display: flex;
+  flex-direction: row;
+}

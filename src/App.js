@@ -1,130 +1,110 @@
 
-import React from "react";
+import React, { Component } from "react";
+import {v1 as uuid} from "uuid"; 
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
 import './App.css';
 import "./components/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+class App extends Component {
+  
+  // states
+  state = {
+    items: [],
+    id: uuid(),
+    item: "",
+    editItem: false,
+    completedTasks: []
 
-//Link for editing
-//https://dev.to/joelynn/how-to-build-a-react-crud-todo-app-edit-todo-46g6
+  };
+  handleChange = e => {
+    this.setState({
+      item: e.target.value
+    });
+  };
 
-//for creating components it doesnt matter if you use const Form = ()=>{} or function Form ()}
-
-function Todo({ todo, index, completeTodo, removeTodo, editTodo }) {
-  return (
-    <div className="todo" style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}>
-      <button className="button" onClick={() => completeTodo(index)}><FontAwesomeIcon alt="check" icon={"check-circle"} /></button>
-      {todo.text}
-      <div>
-
-        <button className="button" onClick={() => editTodo(index)}><FontAwesomeIcon alt="check" icon={"edit"} /></button>
-        <button className="button" onClick={() => removeTodo(index)}><FontAwesomeIcon alt="check" icon={"trash-alt"} /></button>
-      </div>
-    </div>
-  )
-}
-
-function TodoForm({ addTodo, editTodo }) {
-  //set value gleich. gucken, wie man value aus dem todo-
-  const [value, setValue] = React.useState("");
-  const handleSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue("");
-  };
-
-  // mal gucken was wir damit machen 
-  const [isEditing, setIsEditing] = React.useState(false);
-  const handleEdit = ()=> {
-    //*******HIER: WAS PASSIERT NACHDEM GEKLICKT WURDE?  */
-    console.log("in Edit Mode");
-    console.log("isEditing",isEditing);
-    console.log(value)
-    
-      //editTodo(value)
-     //setValue(value);
-     //setIsEditing(false)
-  }
-  return (
-
-    
-      <form onSubmit={handleSubmit}>
-      <input type="text"
-        className="input todo"
-        value={value}
-        onChange={e => setValue(e.target.value)} />
-      <button className="button-add" onClick={handleSubmit}>Add</button>
-    </form>
-    
-    
-   
-  );
-}
-
-
-function App() {
-  const [todos, setTodos] = React.useState([
-    {
-      text: "Learn about React",
-      isCompleted: false,
-      isEditing: false
-    },
-    {
-      text: "Meet friend for lunch",
-      isCompleted: false,
-      isEditing: false
-    },
-    {
-      text: "Build really cool todo app",
-      isCompleted: false,
-      isEditing: false
+    const newItem = {
+      id: this.state.id,
+      title: this.state.item
     }
-  ]);
+    const updatedItems = [newItem, ...this.state.items ]
+    this.setState({
+      items:updatedItems,
+      item: '',
+      //create new id after submit
+      id: uuid(),
+      editItem: false
+    }, () =>console.log(this.state))
+  };
+  clearList = () => {
+    console.log("clear list")
+   this.setState({
+     items: []
+   })
+  };
+  handleComplete = id => {
+    console.log(`handle complete ${id}`);
+    
+    //this.state.isCompleted = true; 
+    // das brauchen wir für summary
+    const todos = [...this.state.items]
+    var completedItems = []; 
+    const thisItem = {
+      id: this.state.id,
+      title: this.state.item,
+      isCompleted: true
+    }
+    completedItems = [thisItem, ...this.state.completedTasks]
+    console.log(completedItems)
 
-  //console.log(todos)
-
-  var countTodo = todos.length;
-  var countsCompleted = 0;
-  todos.forEach(todo => todo.isCompleted === true ? countsCompleted += 1 : countsCompleted);
-
-
-  const addTodo = text => {
-    //const newTodos = [...todos, { text }];
-    const newTodos = [{ text },...todos ];
-    console.log("in add todo")
-    setTodos(newTodos);
+    this.setState({
+      completedTasks : completedItems,
+      items: todos,
+      item: thisItem
+      //isCompleted: true
+    })
+    console.log(this.state.isCompleted)
+    
   };
 
-  const completeTodo = index => {
-    const newTodos = [...todos];
-    newTodos[index].isCompleted = true;
-    setTodos(newTodos);
+  handleDelete = id => {
+    console.log(`handle delete ${id}`);
+
+   
+    // only display/remder the items that dont have the id of input parameter
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    this.setState({
+      items: filteredItems
+    });
+  };
+  handleEdit = id => {
+    console.log(`handle edit ${id}`);
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    const selectedItem = this.state.items.find(item => item.id === id);
+    console.log(selectedItem)
+    //set to filtered items again 
+    this.setState({
+      items: filteredItems,
+      item: selectedItem.title,
+      id: id,
+      editItem: true
+    });
+
   };
 
-  const removeTodo = index => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
-  const editTodo = (index) => {
-    //console.log("in const editTodo");
-    console.log("new todo index");
-    console.log(index);
-    const newTodos = [...todos];
-    //var text  = newTodos[index].text;
-    //console.log(text);
-    newTodos[index].isEditing = true;
-    //console.log(newTodos[index].isEditing);
-    //setTodos(newTodos);
-    //setTodos(newTodos);
-    //newTodos[index].isEditing = false;
-    //console.log("New Todos");
-   // console.log(newTodos);
-  };
+ 
 
-
-  return (
-    <div className="App">
+  render() {
+    
+    //console.log(this.state)
+    //var countTodo = todos.length;
+    var countTodo = this.state.items.length; 
+    var countsCompleted = 0;
+    //this.items.forEach(item => item.isCompleted === true ? countsCompleted += 1 : countsCompleted);
+    return (
+      <div className="App">
       <header className="App-header">
         <FontAwesomeIcon className="App-logo" alt="logo" icon={"tasks"} size="6x" />
         <h1>my tasks</h1>
@@ -140,26 +120,20 @@ function App() {
 
         </div>
       </header>
+
       <div className="todo-container">
-
-
-        <TodoForm addTodo={addTodo} />
-        <div className="todo-list">
-          {todos.map((todo, index) => (
-            <Todo
-              key={index}
-              index={index}
-              todo={todo}
-              completeTodo={completeTodo}
-              removeTodo={removeTodo}
-              editTodo={editTodo}
-            />
-          ))}
-
-        </div>
-        <button >Remove All</button>
-        <button >Complete All</button>
+      
+       <TodoInput item={this.state.item} handleChange={this.handleChange} handleSubmit={this.handleSubmit} editItem={this.state.editItem} ></TodoInput>
+        <TodoList 
+          items={this.state.items}
+          clearList={this.clearList}
+          handleDelete={this.handleDelete}
+          handleEdit={this.handleEdit}
+          handleComplete={this.handleComplete}
+          >
+      </TodoList>
       </div>
+     
       <footer className="App-footer">
 
         <h2>Always stay organized</h2>
@@ -167,7 +141,8 @@ function App() {
 
 
     </div>
-  );
+    );
+  }
 }
 
 export default App;
