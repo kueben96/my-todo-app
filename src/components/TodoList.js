@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TodoItem from "./TodoItem";
 export default class TodoList extends Component {
   render() {
-    const { items, clearList, completeList, handleDelete, handleEdit, handleComplete } = this.props;
+    const { items, clearList, completeAll, handleDelete, handleEdit, handleComplete, getSummary } = this.props;
     return (
       
       <div className="todo-list">
@@ -17,7 +17,8 @@ export default class TodoList extends Component {
           ></TodoItem>
        )})}
        <button className="button-remove-all" onClick={clearList}>Delete All</button>
-       <button className="button-complete-all" onClick={completeList}>Complete All</button>
+       <button className="button-complete-all" onClick={completeAll}>Complete All</button>
+       <button className="button-summary" onClick={getSummary}>Get Summary</button>
       </div>
     );
   }

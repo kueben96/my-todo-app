@@ -120,6 +120,17 @@
   
 }
 
+.button-summary {
+  /*padding: 2vh;*/
+  margin-bottom: 2vh;
+  background-color: #d3c014;
+  color: white;
+  padding: 2vh;
+  border-style:none;
+  border-radius: 3px;
+  
+}
+
 .button-complete-all {
   /*padding: 2vh;*/
   margin-bottom: 2vh;
@@ -174,4 +185,9 @@
 .check-todo {
   display: flex;
   flex-direction: row;
+}
+
+.summaryContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

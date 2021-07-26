@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // hello world
 export default class TodoInput extends Component {
   render() {
-    const { item, handleChange, handleSubmit, editItem } = this.props;
+    const { item, handleChange, handleSubmit, editItem, handleEditSubmit } = this.props;
     return (
      <form onSubmit="handleSubmit">
      <input type="text"
@@ -15,7 +15,7 @@ export default class TodoInput extends Component {
     //Conditional rendering
         className={editItem ? "button-edit":"button-add"} 
         //className={"button-add"} 
-        onClick={handleSubmit}
+        onClick={editItem? handleEditSubmit: handleSubmit}
         disabled={item?false:true}>{editItem?'Edit Item': 'Add Task'}</button>
       
      </form>
