@@ -13,10 +13,10 @@ export default class TodoInput extends Component {
         />
     <button 
     //Conditional rendering
-        //className={editItem ? "button-edit":"button-add"} 
-        className={"button-add"} 
+        className={editItem ? "button-edit":"button-add"} 
+        //className={"button-add"} 
         onClick={handleSubmit}
-        disabled={item?false:true}>Add Task</button>
+        disabled={item?false:true}>{editItem?'Edit Item': 'Add Task'}</button>
       
      </form>
       );

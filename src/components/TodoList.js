@@ -10,7 +10,7 @@ export default class TodoList extends Component {
          <TodoItem
           key={item.id}
           title={item.title}
-          //isCompleted={false}
+          isCompleted={item.isCompleted}
           handleDelete={()=>handleDelete(item.id)}
           handleEdit = {()=> handleEdit(item.id)}
           handleComplete={()=>handleComplete(item.id)}

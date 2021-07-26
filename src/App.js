@@ -14,8 +14,7 @@ class App extends Component {
     id: uuid(),
     item: "",
     editItem: false,
-    completedTasks: []
-
+    //completedTasks: []
   };
   handleChange = e => {
     this.setState({
@@ -27,7 +26,8 @@ class App extends Component {
     e.preventDefault();
     const newItem = {
       id: this.state.id,
-      title: this.state.item
+      title: this.state.item,
+      isCompleted: false
     }
     const updatedItems = [newItem, ...this.state.items ]
     this.setState({
@@ -44,40 +44,24 @@ class App extends Component {
      items: []
    })
   };
-  handleComplete = id => {
-    console.log(`handle complete ${id}`);
-    
-    //this.state.isCompleted = true; 
-    // das brauchen wir für summary
-    const todos = [...this.state.items]
-    var completedItems = []; 
-    const thisItem = {
-      id: this.state.id,
-      title: this.state.item,
-      isCompleted: true
-    }
-    completedItems = [thisItem, ...this.state.completedTasks]
-    console.log(completedItems)
-
-    this.setState({
-      completedTasks : completedItems,
-      items: todos,
-      item: thisItem
-      //isCompleted: true
-    })
-    console.log(this.state.isCompleted)
-    
-  };
+  
 
   handleDelete = id => {
     console.log(`handle delete ${id}`);
-
-   
-    // only display/remder the items that dont have the id of input parameter
     const filteredItems = this.state.items.filter(item => item.id !== id);
     this.setState({
       items: filteredItems
     });
+  };
+  handleComplete = (id) => {
+    console.log(`handle complete ${id}`);
+    const todos = [...this.state.items]
+    var index = todos.map(function(todo) { return todo.id; }).indexOf(id);
+    console.log(index);
+    todos[index].isCompleted = !todos[index].isCompleted;
+    this.setState({
+      items: todos
+    })
   };
   handleEdit = id => {
     console.log(`handle edit ${id}`);
