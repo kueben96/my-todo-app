@@ -51,6 +51,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 40px;
+ 
   
 
 }
@@ -188,6 +189,6 @@
 }
 
 .summaryContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
 }

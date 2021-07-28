@@ -44,7 +44,8 @@ class App extends Component {
   clearList = () => {
     console.log("clear list")
    this.setState({
-     items: []
+     items: [],
+     itemsDoneCounter: 0
    })
   };
  
@@ -117,6 +118,13 @@ class App extends Component {
       showSummary: true
     })
   };
+
+  handleTodoView = () => {
+    console.log("button clicked")
+    this.setState({
+      showSummary: false
+    })
+  };
   
   render() {
     
@@ -154,10 +162,11 @@ class App extends Component {
           handleEdit={this.handleEdit}
           handleComplete={this.handleComplete}
           completeAll={this.completeAll}
+          getSummary={this.getSummary}
           >
       </TodoList>
       </div>
-       : <Summary items={this.state.items}/>}
+       : <Summary items={this.state.items} handleTodoView={this.handleTodoView}/>}
       
      
       <footer className="App-footer">
